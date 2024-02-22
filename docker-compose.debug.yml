@@ -1,0 +1,26 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  demobackend:
+    image: angulardemoapp
+    build:
+      context: ./demo-backend
+      dockerfile: ./Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5188:5188
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+  demofrontend:
+    image: demo-angular-app
+    build:
+      context: ./demo-app
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:80
+
